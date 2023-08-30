@@ -3,19 +3,19 @@
     @submit.prevent
     class="input-group">
     <input
-      v-model="albumName"
-      @input="albumName = $event.target.value"
+      v-model="card.albumName"
+      @input="card.albumName = $event.target.value"
       class="input" 
       type="text" 
       placeholder="album name">
     <input
-      v-model="bandName"
-      @input="bandName = $event.target.value"
+      v-model="card.bandName"
+      @input="card.bandName = $event.target.value"
       class="input" 
       type="text" 
       placeholder="band name">
     <input
-      v-model="albumCoverUrl"
+      v-model="card.albumCoverUrl"
       class="input" 
       type="text" 
       placeholder="album cover url">
@@ -23,19 +23,39 @@
       class="v-btn" 
       icon="mdi-plus" 
       size="small" 
-      color="black" 
-      @click="createCard" >
+      color="black"
+      @click="createCard"
+      >
     </v-btn>
   </form>
 </template>
 
 <script>
 export default {
-  
+  data() {
+    return {
+      card: {
+        albumName: '',
+        bandName: '',
+        albumCoverUrl: ''
+      }
+    }
+  },
+  methods: {
+    createCard() {
+      this.card.id = Date.now()
+      this.$emit('createCard', this.card)
+      this.card = {
+        albumName: '',
+        bandName: '',
+        albumCoverUrl: ''
+      }
+    }
+  }
 }
 </script>
 
-<style>
+<style scoped>
 
   .input-group {
     display: flex;

@@ -1,5 +1,10 @@
 <script>
+  import CardForm from "./components/CardForm.vue"
+  import CardsList from "./components/CardsList.vue"
   export default {
+    components: {
+      CardForm, CardsList,
+    },
     data() {
       return {
         cards: [
@@ -36,30 +41,13 @@
       }
     },
     methods: {
-      addLike(card) {
-        if (card.likes === null) {
-          card.likes = 1
-        } else {
-          card.likes += 1
-        }
+
+      createCard(card) {
+        this.cards.push(card)
       },
-      removeLike(card) {
-        if (card.likes !== null && card.likes > 0) {
-          card.likes -= 1
-        }
-      },
-      createCard() {
-        const newCard = {
-          id: Date.now(),
-          albumName: this.albumName,
-          bandName: this.bandName,
-          albumCoverUrl: this.albumCoverUrl,
-        }
-        this.cards.push(newCard)
-        this.albumName = ''
-        this.bandName = ''
-        this.albumCoverUrl = ''
-      },
+      removeCard(card) {
+        this.cards = this.cards.filter(c => c.id !== card.id)
+      }
 
     }
   }
@@ -67,68 +55,14 @@
 
 <template>
   <div class="page">
+    <h1 class="heading">My Vinyl Collection</h1>
     <header class="header">
-      <form
-        @submit.prevent
-        class="input-group">
-        <input
-          v-model="albumName"
-          @input="albumName = $event.target.value"
-          class="input" 
-          type="text" 
-          placeholder="album name">
-        <input
-          v-model="bandName"
-          @input="bandName = $event.target.value"
-          class="input" 
-          type="text" 
-          placeholder="band name">
-        <input
-          v-model="albumCoverUrl"
-          class="input" 
-          type="text" 
-          placeholder="album cover url">
-        <v-btn 
-          class="v-btn" 
-          icon="mdi-plus" 
-          size="small" 
-          color="black" 
-          @click="createCard" >
-        </v-btn>
-      </form>
+      <card-form 
+        @createCard="createCard"/>
     </header>
-    <div class="v-cards-grid">
-      <v-card
-        v-for="card in cards"
-        :key="card.id"
-        variant="outlined">
-          <v-card-title>{{ card.albumName }}</v-card-title>
-          <v-card-subtitle class="v-card-subtitle">{{ card.bandName }}</v-card-subtitle>
-          <v-img
-            :width="400"
-            aspect-ratio="16/9"
-            cover
-            :src="card.albumCoverUrl">
-          </v-img>
-          <v-card-actions class="v-card-actions">
-            <v-btn 
-                class="ma-2"
-                variant="text"
-                icon="mdi-thumb-up"
-                color="blue-lighten-2"
-                @click="addLike(card)">
-            </v-btn>
-            <div>{{ card.likes }}</div>
-            <v-btn 
-              class="ma-2"
-              variant="text"
-              icon="mdi-thumb-down"
-              color="red-lighten-2"
-              @click="removeLike(card)">
-            </v-btn>
-          </v-card-actions>
-      </v-card>
-    </div>
+      <cards-list  
+        :cards="cards"
+        @removeCard="removeCard"/>
   </div>
 
 </template>
@@ -139,7 +73,7 @@
     grid-template-areas: 
     "header"
     "v-cards-grid v-cards-grid v-cards-grid";
-    gap: 10px;
+    gap: 15px;
   }
 
   .header {
@@ -148,30 +82,9 @@
     justify-content: center;
   }
 
-  .input-group {
+  .heading {
     display: flex;
-    flex-direction: row;
-    gap: 10px;
-  }
-  
-  .input {
-    border: 1px white solid;
-    color: white;
-  }
-
-  .v-cards-grid {
-    display: grid;
-    grid-area: "v-cards-grid";
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(2, 1fr);
-    grid-column-gap: 30px;
-    grid-row-gap: 30px;
-  }
-
-  .v-card-subtitle {
-    padding-bottom: 1rem;
-  }
-  .v-card-actions {
     justify-content: center;
   }
+
 </style>

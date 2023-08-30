@@ -1,7 +1,32 @@
+<script>
+
+export default {
+  props: {
+    card: {
+      type: Object,
+      required: true
+    }
+  },
+  methods: {
+    addLike(card) {
+    if (card.likes === null) {
+      card.likes = 1
+    } else {
+      card.likes += 1
+    }
+  },
+    removeLike(card) {
+      if (card.likes !== null && card.likes > 0) {
+        card.likes -= 1
+      }
+    },
+  }
+}
+
+</script>
+
 <template>
   <v-card
-    v-for="card in cards"
-    :key="card.id"
     variant="outlined">
       <v-card-title>{{ card.albumName }}</v-card-title>
       <v-card-subtitle class="v-card-subtitle">{{ card.bandName }}</v-card-subtitle>
@@ -27,24 +52,19 @@
           color="red-lighten-2"
           @click="removeLike(card)">
         </v-btn>
+        <v-btn 
+          icon="mdi-delete-outline"
+          @click="$emit('removeCard', card)"></v-btn>
       </v-card-actions>
   </v-card>
 </template>
 
-<script>
-export default {
-  
-}
-</script>
-
-<style>
+<style scoped>
 
   .v-card-subtitle {
     padding-bottom: 1rem;
   }
-
   .v-card-actions {
     justify-content: center;
   }
-  
 </style>
