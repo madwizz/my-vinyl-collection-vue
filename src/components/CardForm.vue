@@ -56,6 +56,7 @@ export default {
         bandName: '',
         albumCoverUrl: '',
         spotifyEmbedCode: '',
+        likes: null
       }
     },
   }
