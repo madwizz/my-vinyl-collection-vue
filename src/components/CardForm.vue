@@ -19,6 +19,11 @@
       class="input" 
       type="text" 
       placeholder="album cover url">
+    <input
+      v-model="card.spotifyEmbedCode"
+      class="input" 
+      type="text" 
+      placeholder="spotify embed code">
     <v-btn 
       class="v-btn" 
       icon="mdi-plus" 
@@ -37,8 +42,9 @@ export default {
       card: {
         albumName: '',
         bandName: '',
-        albumCoverUrl: ''
-      }
+        albumCoverUrl: '',
+        spotifyEmbedCode: '',
+      },
     }
   },
   methods: {
@@ -48,9 +54,10 @@ export default {
       this.card = {
         albumName: '',
         bandName: '',
-        albumCoverUrl: ''
+        albumCoverUrl: '',
+        spotifyEmbedCode: '',
       }
-    }
+    },
   }
 }
 </script>

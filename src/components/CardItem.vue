@@ -56,6 +56,7 @@ export default {
           icon="mdi-delete-outline"
           @click="$emit('removeCard', card)"></v-btn>
       </v-card-actions>
+      <div v-if="card.spotifyEmbedCode" v-html="card.spotifyEmbedCode"></div>
   </v-card>
 </template>
 
